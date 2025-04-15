@@ -1,0 +1,18 @@
+services:
+  database:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Sudarmi12
+      MYSQL_DATABASE: employee_management
+      MYSQL_USER: hafizh
+      MYSQL_PASSWORD: Sudarmi12
+    volumes:
+      - MYSQL_STORAGE:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  MYSQL_STORAGE:
+
+
