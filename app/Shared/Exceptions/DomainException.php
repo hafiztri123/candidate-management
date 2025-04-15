@@ -45,8 +45,13 @@ class DomainException extends Exception
 
     public function getErrors()
     {
-        return $this->errors;
+        return [
+            'resource_type' => $this->getResourceType(),
+            'resource_id' => $this->getResourceId(),
+            'errors' => $this->errors
+        ];
     }
+
 
     private function defaultMessage()
     {

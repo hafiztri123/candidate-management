@@ -2,6 +2,8 @@
 
 namespace App\Shared\Traits;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
 /*******************
@@ -16,10 +18,10 @@ use Illuminate\Http\Response;
 
 trait ApiRespond
 {
-    private function successResponse(
+    public function successResponse(
         string $message = "OK",
         int $HttpCode = Response::HTTP_OK,
-        array $data = []
+        array|Model|JsonResource  $data = []
     )
     {
         return response()->json([
@@ -32,7 +34,7 @@ trait ApiRespond
 
     }
 
-    private function errorResponse(
+    public function errorResponse(
         ?string $message = "FAIL",
         int $httpCode = Response::HTTP_INTERNAL_SERVER_ERROR,
         array $errors = []

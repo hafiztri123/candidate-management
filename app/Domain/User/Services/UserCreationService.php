@@ -46,47 +46,31 @@ class UserCreationService
     {
         try{
 
-            $errorsInData = $this->isDataValid($data);
-
-            if($errorsInData){
-                $message = "Registration data is missing";
-
-                Log::error($message, $errorsInData);
-
-                throw new UserRegistrationDataMissingException(
-                    'Some data required is missing',
-                    $errorsInData
-                );
-
-            }
-
-
-            if($this->hasUserAlreadyExisted($data['email'])){
-                $message = "User with {$data['email']} already exists";
-
-                Log::error($message);
-                
-                throw new UserAlreadyExistsException(customMessage: $message);
-            }
-
+            $this->isDataValid($data);
+            $this->hasUserAlreadyExisted($data['email']);
             $user = $this->createUserModel($data);
 
             DB::transaction(function() use ($user){
                 $this->userRepository->save($user);
-                $this->attachRoleUser($user);
+                DB::afterCommit(function() use ($user) {
+                    $this->attachRoleUser($user);
+                });
             });
 
-
-
-
-        } catch (\Exception $e){
+        } catch (UserRegistrationDataMissingException | UserAlreadyExistsException $e) {
+            throw $e;
+        } catch (\Exception $e) {
             throw new UserCreationException(customMessage: $e->getMessage() ?: 'An error has occured during user creation');
         }
     }
 
     private function hasUserAlreadyExisted(string $email)
     {
-        return $this->userRepository->findByEmail($email);
+        $user = $this->userRepository->findByEmail($email);
+        if ($user){
+            throw new UserAlreadyExistsException(customMessage: "User with $email already exists");
+        }
+        return $user;
     }
 
     private function createUserModel(array $data)
@@ -126,7 +110,9 @@ class UserCreationService
             $errors['password'] = 'Password is empty or not valid';
         }
 
-        return $errors;
+        if(!empty($errors)){
+            throw new UserRegistrationDataMissingException("Missing required data", $errors);
+        }
     }
 
     private function attachRoleUser(User $user)

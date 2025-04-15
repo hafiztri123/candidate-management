@@ -35,4 +35,9 @@ class EloquentUserRepository
         return User::where('email', $email )->first();
     }
 
+    public function findByIdWithRoles(string $id)
+    {
+        return User::with('roles')->find($id);
+    }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Domain\Role\Models;
 
 use App\Domain\User\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
@@ -10,7 +11,8 @@ use Illuminate\Support\Str;
 
 class Role extends Model
 {
-    
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'slug',
@@ -26,7 +28,7 @@ class Role extends Model
             'user_id',
             'id',
             'id'
-        );
+        )->withTimestamps();
     }
 
     protected $keyType = 'string';
