@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\User\Services;
+namespace App\Domain\User\Services\Method;
 
 use App\Domain\Role\Exceptions\RoleNotFoundExceptions;
 use APp\Domain\Role\Repositories\EloquentRoleRepository;
@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Log;
  *
  *******************/
 
-class UserCreationService
+class UserRegistration
 {
 
     /*******************
@@ -42,7 +42,7 @@ class UserCreationService
 
     }
 
-    public function create(array $data)
+    public function register(array $data)
     {
         try{
 
@@ -60,7 +60,8 @@ class UserCreationService
         } catch (UserRegistrationDataMissingException | UserAlreadyExistsException $e) {
             throw $e;
         } catch (\Exception $e) {
-            throw new UserCreationException(customMessage: $e->getMessage() ?: 'An error has occured during user creation');
+            Log::error('An error during user creation has occured', ['message' => $e->getMessage()]);
+            throw $e;
         }
     }
 

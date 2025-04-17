@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\User\Services;
+namespace App\Domain\User\Services\Method;
 
 use App\Domain\User\Repositories\EloquentUserRepository;
 use Illuminate\Support\Facades\Auth;
 
-class UserInformationService
+class UserInformation
 {
     public function __construct(
         private EloquentUserRepository $userRepository

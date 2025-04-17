@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\User\Services;
+namespace App\Domain\User\Services\Method;
 
 use App\Domain\User\Exceptions\InvalidCredentialsException;
 use App\Domain\User\Exceptions\UserNotFoundException;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-class UserTokenLoginService
+class UserTokenBasedLogin
 {
     public function __construct(
         private EloquentUserRepository $userRepository
@@ -31,7 +31,7 @@ class UserTokenLoginService
             throw $e;
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            throw new UserTokenLoginException(customMessage: $e->getMessage() ?: 'An error has occured during user login attempt');
+            throw $e;
         }
 
 
