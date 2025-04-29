@@ -5,6 +5,7 @@ namespace App\Domain\User\Controllers;
 use App\Domain\User\Exceptions\InvalidCredentialsException;
 use App\Domain\User\Requests\UserCreationRequest;
 use App\Domain\User\Requests\UserLoginRequest;
+use App\Domain\User\Requests\UserRegisterRequest;
 use App\Domain\User\Services\UserCreationService;
 use App\Domain\User\Services\UserService;
 use App\Domain\User\Services\UserTokenLoginService;
@@ -39,7 +40,7 @@ class AuthController
         private UserService $userService
     ) { }
 
-    public function store(UserCreationRequest $request)
+    public function store(UserRegisterRequest $request)
     {
         $data = $request->validated();
         $this->userService->register($data);

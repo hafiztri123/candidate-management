@@ -8,6 +8,7 @@ use App\Domain\User\Events\UserCreatedEvent;
 use App\Domain\User\Exceptions\UserAlreadyExists;
 use App\Domain\User\Exceptions\UserAlreadyExistsException;
 use App\Domain\User\Exceptions\UserCreationException;
+use App\Domain\User\Exceptions\UserDataMissingException;
 use App\Domain\User\Exceptions\UserRegistrationDataMissingException;
 use App\Domain\User\Models\User;
 use App\Domain\User\Repositories\EloquentUserRepository;
@@ -59,7 +60,7 @@ class UserRegistrationService
                 });
             });
 
-        } catch (UserRegistrationDataMissingException | UserAlreadyExistsException $e) {
+        } catch (UserDataMissingException | UserAlreadyExistsException $e) {
             throw $e;
         } catch (\Exception $e) {
             Log::error('An error during user creation has occured', ['message' => $e->getMessage()]);
@@ -114,7 +115,7 @@ class UserRegistrationService
         }
 
         if(!empty($errors)){
-            throw new UserRegistrationDataMissingException("Missing required data", $errors);
+            throw new UserDataMissingException("Missing required data", $errors);
         }
     }
 
@@ -126,7 +127,5 @@ class UserRegistrationService
         }
 
         UserCreatedEvent::dispatch($user, $roleUser);
-
-
     }
 }

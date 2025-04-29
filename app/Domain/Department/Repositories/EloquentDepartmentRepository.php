@@ -15,4 +15,9 @@ class EloquentDepartmentRepository
     {
         $department->save();
     }
+
+    public function findById(string $id)
+    {
+        return Department::find($id);
+    }
 }

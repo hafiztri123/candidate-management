@@ -2,6 +2,7 @@
 
 namespace App\Domain\User\Services;
 
+use App\Domain\User\Services\Method\AdminAddUserService;
 use App\Domain\User\Services\Method\UserDeleteService;
 use App\Domain\User\Services\Method\UserInformationService;
 use App\Domain\User\Services\Method\UserListService;
@@ -19,7 +20,8 @@ class UserService
         private UserLogoutService $userLogout,
         private UserListService $userList,
         private UserDeleteService $userDeleteService,
-        private UserUpdatePassword $userUpdatePassword
+        private UserUpdatePassword $userUpdatePassword,
+        private AdminAddUserService $adminAddUserService
     ) {  }
 
     public function me()
@@ -55,6 +57,11 @@ class UserService
     public function updateUserPassword(string $userId, string $newPassword)
     {
         return $this->userUpdatePassword->updatePassword($userId, $newPassword);
+    }
+
+    public function addUser(array $data)
+    {
+        return $this->adminAddUserService->addUser($data);
     }
 
 

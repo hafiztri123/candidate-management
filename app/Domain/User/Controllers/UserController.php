@@ -2,6 +2,7 @@
 
 namespace App\Domain\User\Controllers;
 
+use App\Domain\User\Requests\AddUserRequest;
 use App\Domain\User\Resources\GetAllUserResourceCollection;
 use App\Domain\User\Resources\UserResource;
 use App\Domain\User\Services\UserInformationService;
@@ -59,7 +60,13 @@ class UserController extends Controller
 
         $this->userSevice->updateUserPassword($userId, $userNewPassword);
         return $this->successResponse('OK', Response::HTTP_OK);
+    }
 
+    public function addUser(AddUserRequest $request)
+    {
+        $data = $request->validated();
+        $this->userSevice->addUser($data);
+        return $this->successResponse(HttpCode: Response::HTTP_CREATED);
     }
 
 

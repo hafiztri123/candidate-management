@@ -5,7 +5,7 @@ namespace App\Domain\User\Exceptions;
 use App\Shared\Exceptions\DomainException;
 use Illuminate\Http\Response;
 
-class UserRegistrationDataMissingException extends DomainException
+class UserDataMissingException extends DomainException
 {
     public function __construct(
         ?string $customMessage = null,

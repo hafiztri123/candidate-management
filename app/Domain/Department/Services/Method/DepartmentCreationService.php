@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class CreateDepartmentService
+class DepartmentCreationService
 {
     public function __construct(
         private EloquentDepartmentRepository $eloquentDepartmentRepository
