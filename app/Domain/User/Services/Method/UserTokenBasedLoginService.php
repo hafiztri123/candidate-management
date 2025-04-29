@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-class UserTokenBasedLogin
+class UserTokenBasedLoginService
 {
     public function __construct(
         private EloquentUserRepository $userRepository

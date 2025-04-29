@@ -40,4 +40,28 @@ class EloquentUserRepository
         return User::with('roles')->find($id);
     }
 
+    public function getAllUser(?string $criteria = null, int $pageSize = 10)
+    {
+        $baseQuery = User::query();
+
+        if ($criteria){
+            $baseQuery->where(function ($q) use ($criteria){
+                $q->where('name', 'like', "%{$criteria}%")
+                    ->orWhere('email', 'like', "%{$criteria}%");
+            });
+        }
+
+        return $baseQuery->paginate($pageSize);
+    }
+
+    public function delete(User $user)
+    {
+        $user->delete();
+    }
+
+    public function findById(string $id)
+    {
+        return User::find($id);
+    }
+
 }

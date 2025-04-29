@@ -5,6 +5,7 @@ namespace App\Shared\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /*******************
  *
@@ -21,7 +22,7 @@ trait ApiRespond
     public function successResponse(
         string $message = "OK",
         int $HttpCode = Response::HTTP_OK,
-        array|Model|JsonResource  $data = []
+        array|Model|JsonResource|LengthAwarePaginator  $data = []
     )
     {
         return response()->json([

@@ -17,4 +17,10 @@ Route::prefix('/v1')->group(function(){
         Route::get('/me', [UserController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
+
+    Route::prefix('/user')->middleware("auth:sanctum")->group(function(){
+        Route::get('/', [UserController::class, 'getAll']);
+        Route::delete('/', [UserController::class, 'deleteUser']);
+        Route::put('/', [UserController::class, 'updateUserPassword']);
+    });
 });

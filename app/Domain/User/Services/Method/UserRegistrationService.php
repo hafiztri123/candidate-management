@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Log;
  *
  *******************/
 
-class UserRegistration
+class UserRegistrationService
 {
 
     /*******************
@@ -46,14 +46,16 @@ class UserRegistration
     {
         try{
 
-            $this->isDataValid($data);
+            $this->isRegistrationDataValid($data);
+
             $this->hasUserAlreadyExisted($data['email']);
+
             $user = $this->createUserModel($data);
 
             DB::transaction(function() use ($user){
                 $this->userRepository->save($user);
                 DB::afterCommit(function() use ($user) {
-                    $this->attachRoleUser($user);
+                    $this->attachRoleToUser($user);
                 });
             });
 
@@ -90,7 +92,7 @@ class UserRegistration
         return Hash::make($password);
     }
 
-    private function isDataValid(array $data)
+    private function isRegistrationDataValid(array $data)
     {
         $errors = [];
 
@@ -116,7 +118,7 @@ class UserRegistration
         }
     }
 
-    private function attachRoleUser(User $user)
+    private function attachRoleToUser(User $user)
     {
         $roleUser = $this->roleRepository->findBySlug('user');
         if(!$roleUser){

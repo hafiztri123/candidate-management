@@ -8,14 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class UserLogout
+class UserLogoutService
 {
     public function logout(Request $request)
     {
         try{
             $token = $this->getTokenFromUser($request);
+
             $tokenModel = $this->getTokenFromDatabase($token);
+
             $tokenModel->delete();
+
         } catch (MissingTokenException $e){
             Log::info('Logout attempted with missing/expired token');
             return true;

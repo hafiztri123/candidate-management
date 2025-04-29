@@ -5,6 +5,7 @@ namespace App\Domain\User\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Domain\Role\Models\Role;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -79,5 +80,10 @@ class User extends Authenticatable
             'id',
             'id'
         )->withTimestamps();
+    }
+
+    public static function newFactory()
+    {
+        return UserFactory::new();
     }
 }
