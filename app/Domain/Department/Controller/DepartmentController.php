@@ -32,4 +32,10 @@ class DepartmentController extends Controller
         $data = $this->departmentService->getAllDepartments();
         return $this->successResponse(data: $data);
     }
+
+    public function assignDepartment(string $departmentId)
+    {
+        $this->departmentService->assignDepartment($departmentId);
+        return $this->successResponse();
+    }
 }

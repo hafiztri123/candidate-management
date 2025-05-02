@@ -49,12 +49,12 @@ return Application::configure(basePath: dirname(__DIR__))
                 ]
                 : ['info' => 'Debug has been disabled'];
 
-            return (new ApiResponderService)->errorResponse(
-                $e->getMessage(),
-                $e->getCode() ?: Response::HTTP_INTERNAL_SERVER_ERROR,
-                $debugInfo
-            );
-
-
+        return (new ApiResponderService)->errorResponse(
+            $e->getMessage(),
+            is_int($e->getCode()) && $e->getCode() > 0
+                ? $e->getCode()
+                : Response::HTTP_INTERNAL_SERVER_ERROR,
+            $debugInfo
+        );
     });
 })->create();

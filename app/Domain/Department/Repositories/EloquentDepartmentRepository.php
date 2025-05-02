@@ -20,4 +20,10 @@ class EloquentDepartmentRepository
     {
         return Department::find($id);
     }
+
+    public function departmentsExistsById(array $departmentsId)
+    {
+        $existingCount = Department::whereIn('id', $departmentsId)->count();
+        return $existingCount === count($departmentsId);
+    }
 }
